@@ -1,0 +1,29 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="EnvSuite" verbose="1"
+       skipfailedinvocationcounts="true">
+    <!-- 全局注册 Listener 和 Interceptor -->
+    <listeners>
+        <listener class-name="com.selenium.listener.ExecutionLoggerListener"/>
+        <listener class-name="com.selenium.listener.ScreenshotListener"/>
+        <listener class-name="com.selenium.listener.RetryListener"/>
+        <listener class-name="com.selenium.listener.GroupFilterInterceptor"/>
+    </listeners>
+
+    <!-- 串行阶段：phase=serial -->
+    <test name="SerialPhase" parallel="false">
+        <parameter name="phase" value="serial"/>
+        <parameter name="env" value="${env}"/>
+        <packages>
+            <package name="com.selenium.test"/>
+        </packages>
+    </test>
+
+    <!-- 并行阶段：phase=parallel -->
+    <test name="ParallelPhase" parallel="methods" thread-count="3">
+        <parameter name="phase" value="parallel"/>
+        <parameter name="env" value="${env}"/>
+        <packages>
+            <package name="com.selenium.test"/>
+        </packages>
+    </test>
+</suite>
